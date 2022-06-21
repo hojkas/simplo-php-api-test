@@ -11,12 +11,12 @@ class CustomerRepository implements CustomerRepositoryInterface
 {
     public function getAllCustomers()
     {
-        throw new NotImplementedException();
+        return Customer::all();
     }
 
     public function getCustomerById($customerId)
     {
-        throw new NotImplementedException();
+        return Customer::findOrFail($customerId);
     }
 
     public function getCustomerByIdWithGroups($customerId)
@@ -26,16 +26,16 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function deleteCustomer($customerId)
     {
-        throw new NotImplementedException();
+        Customer::destroy($customerId);
     }
 
     public function createCustomer(array $customerDetails)
     {
-        throw new NotImplementedException();
+        return Customer::create($customerDetails);
     }
 
     public function updateCustomer($customerId, array $newDetails)
     {
-        throw new NotImplementedException();
+        return Customer::whereId($customerId)->update($newDetails);
     }
 }
