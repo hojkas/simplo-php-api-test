@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Interfaces\CustomerRepositoryInterface;
+use App\Models\Customer;
+use App\Models\CustomerGroup;
+use Nette\NotImplementedException;
+
+class CustomerRepository implements CustomerRepositoryInterface
+{
+    public function getAllCustomers()
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getCustomerById($customerId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getCustomerByIdWithGroups($customerId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public function deleteCustomer($customerId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public function createCustomer(array $customerDetails)
+    {
+        throw new NotImplementedException();
+    }
+
+    public function updateCustomer($customerId, array $newDetails)
+    {
+        throw new NotImplementedException();
+    }
+}
