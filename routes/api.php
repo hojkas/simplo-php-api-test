@@ -22,10 +22,10 @@ Route::get('customers/{id}/groups', [CustomerController::class, 'showGroups'])
 Route::post('customers', [CustomerController::class, 'store']);
 Route::put('customers/{id}', [CustomerController::class, 'update'])
     ->whereNumber('id');
-    
-// Route::delete('customers/{id}', [CustomerController::class, 'delete'])
-//     ->whereNumber('id');
-// Route::put('customers/{id}/groups/{group_id}', [CustomerController::class, 'add_to_group'])
+Route::delete('customers/{id}', [CustomerController::class, 'destroy'])
+    ->whereNumber('id');
+
+    // Route::put('customers/{id}/groups/{group_id}', [CustomerController::class, 'add_to_group'])
 //     ->whereNumber('id')
 //     ->whereNumber('group_id');
 // Route::delete('customers/{id}/groups/{group_id}', [CustomerController::class, 'delete_from_group'])

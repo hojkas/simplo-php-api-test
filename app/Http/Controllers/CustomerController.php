@@ -74,4 +74,12 @@ class CustomerController extends Controller
         
         return response()->json(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
     }
+
+    public function destroy(Request $request): JsonResponse
+    {
+        $customerId = $request->route('id');
+        $this->customerRepository->deleteCustomer($customerId);
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
