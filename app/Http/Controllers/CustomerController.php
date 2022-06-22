@@ -7,6 +7,7 @@ use App\Http\Resources\CustomerResource;
 use App\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -39,5 +40,21 @@ class CustomerController extends Controller
         $customerId = $request->route('id');
         $groups = $this->customerRepository->getCustomerGroups($customerId);
         return response()->json(CustomerGroupResource::collection($groups));
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        $customerDetails = $request->only([
+            'name',
+            'surname',
+            'email',
+            'phone_number'
+        ]);
+
+        $createdCustomer = $this->customerRepository->createCustomer($customerDetails);
+
+        return response()->json(
+            new CustomerResource($createdCustomer),
+            Response::HTTP_CREATED);
     }
 }
