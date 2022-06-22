@@ -57,4 +57,21 @@ class CustomerController extends Controller
             new CustomerResource($createdCustomer),
             Response::HTTP_CREATED);
     }
+
+    public function update(Request $request): JsonResponse
+    {
+        $customerId = $request->route('id');
+        $customerDetails = $request->only([
+            'name',
+            'surname',
+            'email',
+            'phone_number'
+        ]);
+
+        $rowsAffected = $this->customerRepository->updateCustomer($customerId, $customerDetails);
+        
+        if($rowsAffected === 1) return response()->json(['success' => 'success'], Response::HTTP_OK);
+        
+        return response()->json(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
+    }
 }

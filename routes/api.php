@@ -20,9 +20,9 @@ Route::get('customers/{id}', [CustomerController::class, 'show'])
 Route::get('customers/{id}/groups', [CustomerController::class, 'showGroups'])
     ->whereNumber('id');
 Route::post('customers', [CustomerController::class, 'store']);
-
-// Route::put('customers/{id}', [CustomerController::class, 'update'])
-//     ->whereNumber('id');
+Route::put('customers/{id}', [CustomerController::class, 'update'])
+    ->whereNumber('id');
+    
 // Route::delete('customers/{id}', [CustomerController::class, 'delete'])
 //     ->whereNumber('id');
 // Route::put('customers/{id}/groups/{group_id}', [CustomerController::class, 'add_to_group'])
