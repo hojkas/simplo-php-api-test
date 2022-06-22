@@ -24,6 +24,11 @@ class CustomerRepository implements CustomerRepositoryInterface
         throw new NotImplementedException();
     }
 
+    public function getCustomerGroups($customerId)
+    {
+        return Customer::findOrFail($customerId)->groups;
+    }
+
     public function deleteCustomer($customerId)
     {
         Customer::destroy($customerId);
