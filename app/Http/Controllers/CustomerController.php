@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CustomerGroupResource;
 use App\Http\Resources\CustomerResource;
 use App\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\CustomerRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
