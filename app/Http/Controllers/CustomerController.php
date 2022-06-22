@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerGroupResource;
 use App\Http\Resources\CustomerResource;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\CustomerRepository;
@@ -33,5 +34,12 @@ class CustomerController extends Controller
         if($show_groups) $customer->load('groups');
 
         return response()->json(new CustomerResource($customer));
+    }
+
+    public function showGroups(Request $request): JsonResponse
+    {
+        $customerId = $request->route('id');
+        $groups = $this->customerRepository->getCustomerGroups($customerId);
+        return response()->json(CustomerGroupResource::collection($groups));
     }
 }
