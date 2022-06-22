@@ -148,4 +148,11 @@ return [
 
     ],
 
+    'seeding' => [
+        'customer_count' => 10,
+        'customer_group_count' => 10,
+        'min_groups_per_user' => 1,
+        'max_groups_per_user' => 3
+    ]
+
 ];

@@ -17,7 +17,9 @@ class CustomerGroupsTableSeeder extends Seeder
     {
         CustomerGroup::truncate();
 
-        for($i = 1; $i <= 10; $i++) {
+        $customerGroupCount = config('database.seeding.customer_group_count');
+
+        for($i = 1; $i <= $customerGroupCount; $i++) {
             CustomerGroup::create([
                 'name' => "Group {$i}"
             ]);

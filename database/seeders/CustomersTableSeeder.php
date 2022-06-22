@@ -19,7 +19,9 @@ class CustomersTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        $customerCount = config('database.seeding.customer_group_count');
+
+        for ($i = 0; $i < $customerCount; $i++) {
             Customer::create([
                 'name' => $faker->firstName(),
                 'surname' => $faker->lastName(),
