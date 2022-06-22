@@ -21,7 +21,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function getCustomerByIdWithGroups($customerId)
     {
-        throw new NotImplementedException();
+        return Customer::findOrFail($customerId)->load('groups');
     }
 
     public function getCustomerGroups($customerId)

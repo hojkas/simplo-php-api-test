@@ -29,9 +29,8 @@ class CustomerController extends Controller
         $customerId = $request->route('id');
         $show_groups = $request->query('showGroups');
 
-        $customer = $this->customerRepository->getCustomerById($customerId);
-
-        if($show_groups) $customer->load('groups');
+        if($show_groups) $customer = $this->customerRepository->getCustomerByIdWithGroups($customerId);
+        else $customer = $this->customerRepository->getCustomerById($customerId);
 
         return response()->json(new CustomerResource($customer));
     }
