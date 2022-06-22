@@ -26,7 +26,11 @@ class CustomerController extends Controller
     public function show(Request $request): JsonResponse
     {
         $customerId = $request->route('id');
+        $show_groups = $request->query('showGroups');
+
         $customer = $this->customerRepository->getCustomerById($customerId);
+
+        if($show_groups) $customer->load('groups');
 
         return response()->json(new CustomerResource($customer));
     }
