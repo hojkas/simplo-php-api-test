@@ -11,4 +11,6 @@ interface CustomerRepositoryInterface
     public function deleteCustomer($customerId);
     public function createCustomer(array $customerDetails);
     public function updateCustomer($customerId, array $newDetails);
+    public function attachGroup($customerId, $groupId);
+    public function detachGroup($customerId, $groupId);
 }

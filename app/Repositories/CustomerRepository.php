@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Models\CustomerGroup;
-use Nette\NotImplementedException;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
@@ -42,5 +41,17 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function updateCustomer($customerId, array $newDetails)
     {
         return Customer::whereId($customerId)->update($newDetails);
+    }
+
+    public function attachGroup($customerId, $groupId)
+    {
+        $customer = Customer::findOrFail($customerId);
+        $customer->groups()->attach($groupId);
+    }
+
+    public function detachGroup($customerId, $groupId)
+    {
+        $customer = Customer::findOrFail($customerId);
+        $customer->groups()->detach($groupId);
     }
 }

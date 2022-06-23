@@ -82,4 +82,24 @@ class CustomerController extends Controller
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function add_to_group(Request $request): JsonResponse
+    {
+        $customerId = $request->route('id');
+        $groupId = $request->route('group_id');
+
+        $this->customerRepository->attachGroup($customerId, $groupId);
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function remove_from_group(Request $request): JsonResponse
+    {
+        $customerId = $request->route('id');
+        $groupId = $request->route('group_id');
+
+        $this->customerRepository->detachGroup($customerId, $groupId);
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
