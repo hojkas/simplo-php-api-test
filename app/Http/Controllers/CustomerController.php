@@ -70,9 +70,9 @@ class CustomerController extends Controller
 
         $rowsAffected = $this->customerRepository->updateCustomer($customerId, $customerDetails);
         
-        if($rowsAffected === 1) return response()->json(['success' => 'success'], Response::HTTP_OK);
+        if($rowsAffected === 1) return response()->json(null, Response::HTTP_NO_CONTENT);
         
-        return response()->json(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
+        return response()->json(null, Response::HTTP_BAD_REQUEST);
     }
 
     public function destroy(Request $request): JsonResponse
