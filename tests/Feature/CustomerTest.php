@@ -64,7 +64,7 @@ class CustomerTest extends TestCase
     }
 
     /**
-     * Test GET api/customes/id returns customer without group shown
+     * Test GET api/customers/id returns customer without group shown
      *
      * @return void
      */
@@ -80,4 +80,28 @@ class CustomerTest extends TestCase
         $response->assertJsonFragment($customer->toArray());
         $response->assertJsonMissing(['name' => $group->name]);
     }
+    
+    /**
+     * Tets GET api/customers/id/groups returns customers groups properly
+     *
+     * @return void
+     */
+    public function test_get_customer_groups_only()
+    {
+        $customer = Customer::factory()->create();
+        $group1 = CustomerGroup::factory()->create();
+        $group2 = CustomerGroup::factory()->create();
+        $nonCustomerGroup = CustomerGroup::factory()->create();
+
+        $customer->groups()->attach([$group1->id, $group2->id]);
+
+        $response = $this->get("api/customers/{$customer->id}/groups");
+        
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($group1->toArray())
+            ->assertJsonFragment($group2->toArray())
+            ->assertJsonMissing(['name' => $nonCustomerGroup->name]);
+    }
+
 }
