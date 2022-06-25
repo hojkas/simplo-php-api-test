@@ -46,6 +46,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function attachGroup($customerId, $groupId)
     {
         $customer = Customer::findOrFail($customerId);
+        CustomerGroup::findOrFail($groupId);
         $customer->groups()->attach($groupId);
     }
 
