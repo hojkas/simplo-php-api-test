@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Customer;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CustomersTableSeeder extends Seeder
@@ -17,15 +16,10 @@ class CustomersTableSeeder extends Seeder
     {
         Customer::truncate();
 
-        $faker = \Faker\Factory::create();
+        $customerCount = config('database.seeding.customer_group_count');
 
-        for ($i = 0; $i < 10; $i++) {
-            Customer::create([
-                'name' => $faker->firstName(),
-                'surname' => $faker->lastName(),
-                'phone_number' => $faker->phoneNumber(),
-                'email' => $faker->email()
-            ]);
+        for ($i = 0; $i < $customerCount; $i++) {
+            Customer::factory()->create();
         }
     }
 }
