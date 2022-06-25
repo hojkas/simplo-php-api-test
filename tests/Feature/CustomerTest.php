@@ -141,4 +141,38 @@ class CustomerTest extends TestCase
                 ['name', 'surname', 'email', 'phone_number']));
     }
 
+    /**
+     * Test put customer returns 204 and updates existing customer
+     *
+     * @return void
+     */
+    public function test_put_customer()
+    {
+        $customer = Customer::factory()->create();
+        $editedCustomer = $customer->toArray();
+        $editedCustomer['name'] = 'new name';
+
+        $response = $this->put("api/customers/{$customer->id}", $editedCustomer);
+
+        $response->assertStatus(204);
+
+        $customerFromDb = Customer::findOrFail($customer->id)->toArray();
+        assertTrue(
+            $this->given_keys_contains_same_values(
+                $editedCustomer,
+                $customerFromDb,
+                ['name', 'surname', 'email', 'phone_number']));
+    }
+
+    /**
+     * Test put customer with non existing id returns 404
+     *
+     * @return void
+     */
+    public function test_put_customer_with_non_existent_customer()
+    {
+        $response = $this->put('api/customers/1');
+
+        $response->assertStatus(404);
+    }
 }
