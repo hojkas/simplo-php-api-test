@@ -231,22 +231,6 @@ class CustomerTest extends TestCase
     }
 
     /**
-     * PUT api/customers/id/groups/group_id returns 400 bad request if already in the group
-     *
-     * @return void
-     */
-    public function test_add_customer_to_group_he_is_in()
-    {
-        $customer = Customer::factory()->create();
-        $group = CustomerGroup::factory()->create();
-        $customer->groups()->attach($group->id);
-
-        $response = $this->put("api/customers/{$customer->id}/groups/{$group->id}");
-
-        $response->assertStatus(400);
-    }
-
-    /**
      * PUT api/customers/id/groups/group_id returns 404 if group doesn't exist
      *
      * @return void
