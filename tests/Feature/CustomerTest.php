@@ -204,4 +204,59 @@ class CustomerTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    /**
+     * PUT api/customers/id/groups/group_id adds user to a group and returns 204
+     *
+     * @return void
+     */
+    public function test_add_customer_to_group()
+    {
+        $customer = Customer::factory()->create();
+        $group = CustomerGroup::factory()->create();
+
+        $response = $this->put("api/customers/{$customer->id}/groups/{$group->id}");
+
+        $response->assertStatus(204);
+
+        $customerFromDb = Customer::findOrFail($customer->id);
+        $groups = $customerFromDb->groups->toArray();
+        
+        assertTrue(
+            $this->given_keys_contains_same_values(
+                $groups[0],
+                $group->toArray(),
+                ['id', 'name']
+            ));
+    }
+
+    /**
+     * PUT api/customers/id/groups/group_id returns 400 bad request if already in the group
+     *
+     * @return void
+     */
+    public function test_add_customer_to_group_he_is_in()
+    {
+        $customer = Customer::factory()->create();
+        $group = CustomerGroup::factory()->create();
+        $customer->groups()->attach($group->id);
+
+        $response = $this->put("api/customers/{$customer->id}/groups/{$group->id}");
+
+        $response->assertStatus(400);
+    }
+
+    /**
+     * PUT api/customers/id/groups/group_id returns 404 if group doesn't exist
+     *
+     * @return void
+     */
+    public function test_add_customer_to_non_existing_group()
+    {
+        $customer = Customer::factory()->create();
+
+        $response = $this->put("api/customers/{$customer->id}/groups/1");
+
+        $response->assertStatus(404);
+    }
 }
