@@ -72,7 +72,7 @@ class CustomerController extends Controller
         
         if($rowsAffected === 1) return response()->json(null, Response::HTTP_NO_CONTENT);
         
-        return response()->json(null, Response::HTTP_BAD_REQUEST);
+        return response()->json(null, Response::HTTP_NOT_FOUND);
     }
 
     public function destroy(Request $request): JsonResponse
