@@ -44,11 +44,11 @@ class CustomerController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $customerDetails = $request->only([
-            'name',
-            'surname',
-            'email',
-            'phone_number'
+        $customerDetails = $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => 'email:rfc,dns',
+            'phone_number' => 'required'
         ]);
 
         $createdCustomer = $this->customerRepository->createCustomer($customerDetails);
@@ -61,11 +61,11 @@ class CustomerController extends Controller
     public function update(Request $request): JsonResponse
     {
         $customerId = $request->route('id');
-        $customerDetails = $request->only([
-            'name',
-            'surname',
-            'email',
-            'phone_number'
+        $customerDetails = $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => 'email:rfc,dns',
+            'phone_number' => 'required'
         ]);
 
         $rowsAffected = $this->customerRepository->updateCustomer($customerId, $customerDetails);
