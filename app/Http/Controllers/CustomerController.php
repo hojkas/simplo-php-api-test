@@ -78,9 +78,10 @@ class CustomerController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         $customerId = $request->route('id');
-        $this->customerRepository->deleteCustomer($customerId);
+        $rowsAffected = $this->customerRepository->deleteCustomer($customerId);
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        if($rowsAffected) return response()->json(null, Response::HTTP_NO_CONTENT);
+        else return response()->json(null, Response::HTTP_NOT_FOUND);
     }
 
     public function add_to_group(Request $request): JsonResponse

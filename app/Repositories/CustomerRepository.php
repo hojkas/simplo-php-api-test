@@ -30,7 +30,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function deleteCustomer($customerId)
     {
-        Customer::destroy($customerId);
+        return Customer::destroy($customerId);
     }
 
     public function createCustomer(array $customerDetails)
