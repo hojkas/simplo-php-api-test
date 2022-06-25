@@ -7,6 +7,7 @@ use App\Models\CustomerGroup;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertNull;
 use function PHPUnit\Framework\assertTrue;
 
 class CustomerTest extends TestCase
@@ -172,6 +173,34 @@ class CustomerTest extends TestCase
     public function test_put_customer_with_non_existent_customer()
     {
         $response = $this->put('api/customers/1');
+
+        $response->assertStatus(404);
+    }
+    
+    /**
+     * Test delete customer deletes it from db and returns 204
+     *
+     * @return void
+     */
+    public function test_delete_customer()
+    {
+        $customer = Customer::factory()->create();
+
+        $response = $this->delete("api/customers/{$customer->id}");
+
+        $response->assertStatus(204);
+        $deletedCustomer = Customer::find($customer->id);
+        assertNull($deletedCustomer);
+    }
+
+    /**
+     * Test delete non existent customer returns 404
+     *
+     * @return void
+     */
+    public function test_delete_customer_with_non_existent_customer()
+    {
+        $response = $this->delete('api/customers/1');
 
         $response->assertStatus(404);
     }
