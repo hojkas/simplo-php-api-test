@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $fillable = ['name', 'surname', 'phone_number', 'email'];
+    protected $hidden = ['pivot'];
     use HasFactory;
 
     public function groups()
