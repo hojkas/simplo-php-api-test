@@ -243,4 +243,17 @@ class CustomerTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function test_delete_customer_from_group()
+    {
+        $customer = Customer::factory()->create();
+        $group = CustomerGroup::factory()->create();
+        $customer->groups()->attach($group);
+
+        $response = $this->delete("api/customers/{$customer->id}/groups/{$group->id}");
+
+        $response->assertStatus(204);
+
+        assertTrue(count($customer->groups->toArray()) == 0);
+    }
 }
