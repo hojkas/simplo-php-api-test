@@ -27,6 +27,11 @@ class CustomerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * Test GET api/customers/ returns correct list of customers
+     *
+     * @return void
+     */
     public function test_all_two_customers_are_returned()
     {
         $customer1 = Customer::factory()->create();
@@ -40,13 +45,16 @@ class CustomerTest extends TestCase
         $response->assertJsonFragment($customer2->toArray());
     }
 
+    /**
+     * Test GET api/customers/id?showGroups=true returns customer with group shown
+     *
+     * @return void
+     */
     public function test_correct_get_customer_with_groups()
     {
         $customer = Customer::factory()->create();
         $group = CustomerGroup::factory()->create();
         $customer->groups()->attach($group->id);
-
-        $customerA = $customer->toArray();
 
         $response = $this->get("api/customers/{$customer->id}?showGroups=true");
 
@@ -55,6 +63,11 @@ class CustomerTest extends TestCase
         $response->assertJsonFragment(['name' => $group->name]);
     }
 
+    /**
+     * Test GET api/customes/id returns customer without group shown
+     *
+     * @return void
+     */
     public function test_correct_get_customer_without_groups()
     {
         $customer = Customer::factory()->create();
