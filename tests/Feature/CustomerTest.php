@@ -167,6 +167,40 @@ class CustomerTest extends TestCase
     }
 
     /**
+     * Test POST api/customers with invalid email ends in error 422
+     *
+     * @return void
+     */
+    public function test_post_customer_with_invalid_email()
+    {
+        $customer = Customer::factory()->make();
+        $customer->email = 'invalid@x.c';
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->post('api/customers/', $customer->toArray());
+
+        $response->assertStatus(422);
+    }
+
+    /**
+     * Test POST api/customers with missing phone number ends in error 422
+     *
+     * @return void
+     */
+    public function test_post_customer_with_missing_phone_number()
+    {
+        $customer = Customer::factory()->make();
+        unset($customer['phone_number']);
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->post('api/customers/', $customer->toArray());
+
+        $response->assertStatus(422);
+    }
+
+    /**
      * Test put customer returns 204 and updates existing customer
      *
      * @return void
@@ -196,9 +230,26 @@ class CustomerTest extends TestCase
      */
     public function test_put_customer_with_non_existent_customer()
     {
-        $response = $this->put('api/customers/1');
+        $newCustomerInfo = Customer::factory()->make();
+
+        $response = $this->put('api/customers/1', $newCustomerInfo->toArray());
 
         $response->assertStatus(404);
+    }
+
+    /**
+     * Test put customer with missing phone gets 422 from validation error
+     */
+    public function test_put_customer_with_invalid_info_fails()
+    {
+        $customer = Customer::factory()->create();
+        unset($customer['phone_number']);
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->put("api/customers/{$customer->id}", $customer->toArray());
+
+        $response->assertStatus(422);
     }
     
     /**
