@@ -39,10 +39,11 @@ class CustomerTest extends TestCase
 
         $response = $this->get('api/customers/');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2);
-        $response->assertJsonFragment($customer1->toArray());
-        $response->assertJsonFragment($customer2->toArray());
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(2)
+            ->assertJsonFragment($customer1->toArray())
+            ->assertJsonFragment($customer2->toArray());
     }
 
     /**
@@ -58,9 +59,10 @@ class CustomerTest extends TestCase
 
         $response = $this->get("api/customers/{$customer->id}?showGroups=true");
 
-        $response->assertStatus(200);
-        $response->assertJsonFragment($customer->toArray());
-        $response->assertJsonFragment(['name' => $group->name]);
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($customer->toArray())
+            ->assertJsonFragment(['name' => $group->name]);
     }
 
     /**
@@ -76,9 +78,10 @@ class CustomerTest extends TestCase
 
         $response = $this->get("api/customers/{$customer->id}");
 
-        $response->assertStatus(200);
-        $response->assertJsonFragment($customer->toArray());
-        $response->assertJsonMissing(['name' => $group->name]);
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($customer->toArray())
+            ->assertJsonMissing(['name' => $group->name]);
     }
     
     /**
