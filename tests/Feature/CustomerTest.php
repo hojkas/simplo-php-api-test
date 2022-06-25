@@ -62,7 +62,7 @@ class CustomerTest extends TestCase
      *
      * @return void
      */
-    public function test_correct_get_customer_with_groups()
+    public function test_get_customer_with_groups()
     {
         $customer = Customer::factory()->create();
         $group = CustomerGroup::factory()->create();
@@ -81,7 +81,7 @@ class CustomerTest extends TestCase
      *
      * @return void
      */
-    public function test_correct_get_customer_without_groups()
+    public function test_get_customer_without_groups()
     {
         $customer = Customer::factory()->create();
         $group = CustomerGroup::factory()->create();
@@ -93,6 +93,18 @@ class CustomerTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment($customer->toArray())
             ->assertJsonMissing(['name' => $group->name]);
+    }
+
+    /**
+     * GET api/customers/id of nonexisting user returns 404
+     *
+     * @return void
+     */
+    public function test_get_customer_that_doesnt_exist()
+    {
+        $response = $this->get('api/customers/1');
+
+        $response->assertStatus(404);
     }
     
     /**
@@ -116,6 +128,18 @@ class CustomerTest extends TestCase
             ->assertJsonFragment($group1->toArray())
             ->assertJsonFragment($group2->toArray())
             ->assertJsonMissing(['name' => $nonCustomerGroup->name]);
+    }
+
+    /**
+     * GET api/customers/id/groups for nonexisting user returns 404
+     *
+     * @return void
+     */
+    public function test_get_non_existing_users_groups()
+    {
+        $response = $this->get('api/customers/1/groups');
+
+        $response->assertStatus(404);
     }
     
     /**
@@ -244,6 +268,11 @@ class CustomerTest extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     * DELETE api/customers/id/groups/group_id removes customer from a group
+     *
+     * @return void
+     */
     public function test_delete_customer_from_group()
     {
         $customer = Customer::factory()->create();
