@@ -47,7 +47,7 @@ class CustomerController extends Controller
         $customerDetails = $request->validate([
             'name' => 'required',
             'surname' => 'required',
-            'email' => 'email:rfc,dns',
+            'email' => 'email:rfc,dns|unique:customers|required',
             'phone_number' => 'required'
         ]);
 
