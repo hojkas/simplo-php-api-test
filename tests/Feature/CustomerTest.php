@@ -2,18 +2,28 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\CustomerGroup;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertTrue;
 
 class CustomerTest extends TestCase
 {
     use DatabaseMigrations;
+
+    private function given_keys_contains_same_values($array1, $array2, $keyArray) : bool
+    {
+        foreach($keyArray as $key)
+        {
+            if( !isset($array1[$key]) ||
+                !isset($array2[$key]) ||
+                $array1[$key] != $array2[$key])
+                    return false;
+            return true;
+        }
+    }
     
     /**
      * Test if basic request to endpoint api/customers/ returns 200.
@@ -105,6 +115,30 @@ class CustomerTest extends TestCase
             ->assertJsonFragment($group1->toArray())
             ->assertJsonFragment($group2->toArray())
             ->assertJsonMissing(['name' => $nonCustomerGroup->name]);
+    }
+    
+    /**
+     * Test POST api/customers/ saves new customer and returns it
+     *
+     * @return void
+     */
+    public function test_post_customer()
+    {
+        $newCustomerDetails = Customer::factory()->make()->toArray();
+
+        $response = $this->post('api/customers/', $newCustomerDetails);
+
+        $response
+            ->assertStatus(201)
+            ->assertJsonFragment($newCustomerDetails);
+
+        $customerFromDb = Customer::findOrFail($response->json('id'))->toArray();
+
+        assertTrue(
+            $this->given_keys_contains_same_values(
+                $newCustomerDetails,
+                $customerFromDb,
+                ['name', 'surname', 'email', 'phone_number']));
     }
 
 }
